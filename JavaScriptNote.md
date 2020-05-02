@@ -47,10 +47,38 @@ var arr = ['A', 'B', 'C', 1, 2, 3];
 arr.join('-'); // 'A-B-C-1-2-3'
 ```
 13. 允许使用多维数组。
+14. 数组本身可以被理解为一个类型，每个数组是一个对象，存储着许多键值对，key就是索引，value就是数组元素。
 ### 对象
-1. 对象是无序的键值对集合，感觉就比较离谱的样子，这样就似乎无法像C#一样进行类的嵌套。可能理解有误，继续读。
+1. 对象是无序的键值对集合，感觉就比较离谱的样子，这样就似乎无法像C#一样进行类的嵌套。
+大概是这样声明的：
+```javascript
+var myObject={//直接声明变量然后用块语句赋值
+    name:"Jack",//直接使用变量名加冒号表示键值对，
+    //逗号连接多个属性
+    age:20,
+    city:"Beijing"
+}
+```
+C#的版本作为对比：
+``` Csharp
+public Class myObject{
+    public string name="Jack";
+    public int age=20;
+    public string city="Beijing";
+}
+```
+   
 2. 对于非标准的属性名可以用`'keyname'`括起来声明并用`['keyname']`访问，但是不要给自己找麻烦，都用标准标识符就好了。
 3. 淦，还可以访问不存在的属性，不会报错，只会返回`undefined`。
+4. 但是没关系，不存在的属性赋值一下就变成存在的属性了，就尼玛离谱。
+5. 可以使用`in`关键字来查看对象是否包含某属性，不区分是否是继承属性。
+``` javascript
+'keyname' in objectname
+//return true of false，
+//despite of whether the keyname belongs to its own
+```
+6. 使用`hasOwnProperty()`函数判断是否为自身属性。
+7. JS中的类存储的是键值对，因而可以通过遍历key来访问值。
 ### 变量
 1. 动态语言与静态语言不同，变量类型不需要显示声明。
 2. 变量甚至可以不声明直接用。强类型语言写久了看到这个就觉得很夸张。
@@ -65,5 +93,23 @@ var message = `你好, ${name}, 你今年${age}岁了!`;
 ``` 
 4. 字符串字符数组常量，可以用下标来读取，超过索引范围返回`undefined`，不能更改，更改的话更改无效。
 5. 有直接把字符串改为大小写的函数。
-6. 
+## 循环语句
+1. **没有`foreach`**，只有`for ... in`，如下：
+``` javascript
+var myObject={
+    name:"Jack",
+    age:20,
+    city:"Beijing"
+}
+for(var keyname in myObject){
+    console.log(keyname);//输出'name' 'age' 'city'
+}
+var a = ['A', 'B', 'C'];
+for (var i in a) {
+    console.log(i); // '0', '1', '2'
+    console.log(a[i]); // 'A', 'B', 'C'
+}
+//可以看出for in语句与C# foreach不同。
+//后者取出的是值，前者取出的是键。
+```
    
