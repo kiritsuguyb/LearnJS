@@ -160,7 +160,7 @@ m.forEach(function (value, key, map) {
 //第一个参数都是值、属性，第二个参数是键，索引
 ```
 ## 函数
-### 函数定义
+### 函数定义与调用
 1. 这里的函数更类似delegate变量。
 ```javascript
 function abs(x){
@@ -206,3 +206,44 @@ function foo(a, b, c) {
     // ...
 }
 ```
+4. 可以利用`rest`关键字来获取意料之外的参数，而非像`argument`一样一次性获取所有参数。如果参数不够，则`rest`参数为`undefined`。
+5. 不要把`return`语句分行写，因为javascript会在行末添加分号，导致歧义。
+### 变量作用域与解构赋值
+1. javascript具有变量提升特性，会自动提前声明所有变量，但这很奇怪，因此最好在编写代码时将变量都生命在语句块的开头。
+```javascript
+function foo() {
+    var x = 'Hello, ' + y;
+    console.log(x);
+    var y = 'Bob';
+}
+//等价于👇
+function foo() {
+    var y; // 提升变量y的申明，此时y为undefined
+    var x = 'Hello, ' + y;
+    console.log(x);
+    y = 'Bob';
+}
+```
+2. Javascript将所有不在函数内的变量绑定到全局变量`window`上，成为`window`的一个属性。`window`是Js唯一的全局变量。
+3. 实际上函数也是`window`的一个属性，函数名就是属性名。这与`var functionObject=function(){}`的函数定义方式是自洽的。类似`alert()`函数也是`window`的一个全局变量，因此`alert()`可以被重定向到一个另一个函数上。
+4. 直接在函数外定义的变量都会变为`window`的属性，因此不同js文件容易造成命名冲突。可以**在每个文件中定义一个次级的全局变量**，用这个变量来存储所有的其他变量和函数。
+5. 定义块级临时变量用`let`，用`var`定义的是函数级变量。
+```javascript
+function foo() {
+    for (var i=0; i<100; i++) {
+        //
+    }
+    i += 100; // 仍然可以引用变量i
+}
+//如果使用let
+function foo() {
+    var sum = 0;
+    for (let i=0; i<100; i++) {
+        sum += i;
+    }
+    // SyntaxError:
+    i += 1;
+}
+```
+6. 常量使用`const`修饰，具有块级作用域。
+7. 
