@@ -1,7 +1,7 @@
 # Java Script 笔记
-## 基本语法
+## 数据类型、数据结构以及流程控制
+### 基本语法
 1. 不需要使用；来结尾，但建议加上。
-## 数据类型与变量
 ### 基本类型
 1. 用`Number`类型替代`int`和`float`。
 2. 存在`NaN`用于标识无法计算、`Infinity`标识无穷大。
@@ -16,7 +16,7 @@
 2. 未初始化的数组元素会被认为是`undefined`。
 3. 可以通过索引存取，这一点与c#等语言并无不同。但是比较离谱的是**能够越界赋值**。但显然这是一个不太好的习惯，尽量保证**不要越界**。
 4. 使用`indexOf()`查找元素位置。
-5. 使用`slice()`对数组进行切片，对应`string`的`substring()`。第一个参数是起始位置，第二个参数是切片个数。没有参数的话返回副本，利用这点可以**用来复制数组**。
+5. 使用`slice()`对数组进行切片，对应`string`的`substring()`。第一个参数是**起始位置**，第二个参数是**终点**。没有参数的话返回副本，利用这点可以**用来复制数组**。
 6. 使用`push`和`pop`，栈操作，前者返回栈高度，后者范围出栈元素。
 7. `shift()`，队列操作，出队，反之使用`unshift()`则会在队头入队。
 8. 调用`sort()`默认排序。
@@ -91,8 +91,9 @@ var name = '小明';
 var age = 20;
 var message = `你好, ${name}, 你今年${age}岁了!`;
 ``` 
-4. 字符串字符数组常量，可以用下标来读取，超过索引范围返回`undefined`，不能更改，更改的话更改无效。
-5. 有直接把字符串改为大小写的函数。
+4. **字符串就是字符数组常量**，可以用下标来读取，超过索引范围返回`undefined`，不能更改，更改的话更改无效。因为是数组，因此也是`iterable`，可以使用for of直接遍历。
+5. 有`length`属性、`charAt()`方法，可以用`+`直接连接或调用`concat()`。
+6. 有直接把字符串改为大小写的函数，`toUpperCase`\\`toLowerCase`。
 ### 循环语句
 1. **没有`foreach`**，只有`for ... in`，如下：
 ``` javascript
@@ -119,7 +120,7 @@ var m = new Map([['Michael', 95], ['Bob', 75], ['Tracy', 85]]);
 m.get('Michael'); // 95
 ```
 2. `Set`与`Map`类似但不存储value。存储内容无法重复。
-## Iterable
+### Iterable
 1. `for ... of`和`.foreach`循环。
 2. `for ... of`即C#内foreach。
 ```javascript
@@ -288,3 +289,4 @@ id; // 'G-12345678'
 // 注意: passport不是变量，而是为了让变量id获得passport属性:
 passport; // Uncaught ReferenceError: passport is not defined
 ```
+### 方法
