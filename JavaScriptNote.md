@@ -93,7 +93,7 @@ var message = `你好, ${name}, 你今年${age}岁了!`;
 ``` 
 4. 字符串字符数组常量，可以用下标来读取，超过索引范围返回`undefined`，不能更改，更改的话更改无效。
 5. 有直接把字符串改为大小写的函数。
-## 循环语句
+### 循环语句
 1. **没有`foreach`**，只有`for ... in`，如下：
 ``` javascript
 var myObject={
@@ -112,4 +112,97 @@ for (var i in a) {
 //可以看出for in语句与C# foreach不同。
 //后者取出的是值，前者取出的是键。
 ```
-   
+### Map和Set
+1. `Map`类似C# dictionary。可以使用二维数组初始化：
+```javascript
+var m = new Map([['Michael', 95], ['Bob', 75], ['Tracy', 85]]);
+m.get('Michael'); // 95
+```
+2. `Set`与`Map`类似但不存储value。存储内容无法重复。
+## Iterable
+1. `for ... of`和`.foreach`循环。
+2. `for ... of`即C#内foreach。
+```javascript
+   var a = ['A', 'B', 'C'];
+var s = new Set(['A', 'B', 'C']);
+var m = new Map([[1, 'x'], [2, 'y'], [3, 'z']]);
+for (var x of a) { // 遍历Array
+    console.log(x);
+}
+for (var x of s) { // 遍历Set
+    console.log(x);
+}
+for (var x of m) { // 遍历Map
+    console.log(x[0] + '=' + x[1]);
+    //遍历Map时，将Map作为二维数组看待，索引0是key，索引1是value
+}
+```
+3. 使用`.foreach`可以更加明确目的，这里使用匿名内部函数的方式作为回调函数。
+```javascript
+var a = ['A', 'B', 'C'];
+a.forEach(function (element, index, array) {
+    // element: 指向当前元素的值
+    // index: 指向当前索引
+    // array: 指向Array对象本身
+    console.log(element + ', index = ' + index);
+});
+//Set 的参数只有element和它本身
+var s = new Set(['A', 'B', 'C']);
+s.forEach(function (element, sameElement, set) {
+    console.log(element+set);
+});
+
+var m = new Map([[1, 'x'], [2, 'y'], [3, 'z']]);
+m.forEach(function (value, key, map) {
+    console.log(value);
+});
+//实际上Array和Map的调用方式并无太大差别
+//第一个参数都是值、属性，第二个参数是键，索引
+```
+## 函数
+### 函数定义
+1. 这里的函数更类似delegate变量。
+```javascript
+function abs(x){
+    return x>=0?x:-x;
+}
+//or
+var abs=function(x){
+    return 
+}
+```
+可以看到函数声明与变量声明具有同等地位。后者就好像一个委托变量指向了一个匿名函数。而实际上后者就是一个Lambda表达式。经过试验之后发现如下写法也是成立的：
+```javascript
+         /*👇这是一个Lambda表达式*/
+var abs =(x)=> x>=0?x:-x;
+```
+2. 调用函数时可以传入**任意数量参数**，比较离谱，但**多余的参数不会影响调用**，参数少于预定函数则该参数为`undefined`。
+3. 使用`arguments`关键字可以获得输入的所有参数。
+```javascript
+function foo(x) {
+    console.log('x = ' + x); // 10
+    for (var i=0; i<arguments.length; i++) {
+        console.log('arg ' + i + ' = ' + arguments[i]); // 10, 20, 30
+    }
+}
+foo(10, 20, 30);
+/*output:
+x = 10
+arg 0 = 10
+arg 1 = 20
+arg 2 = 30
+*/
+```
+`arguments`常用于判断参数个数
+```javascript
+// foo(a[, b], c)
+// 接收2~3个参数，b是可选参数，如果只传2个参数，b默认为null：
+function foo(a, b, c) {
+    if (arguments.length === 2) {
+        // 实际拿到的参数是a和b，c为undefined
+        c = b; // 把b赋给c
+        b = null; // b变为默认值
+    }
+    // ...
+}
+```
