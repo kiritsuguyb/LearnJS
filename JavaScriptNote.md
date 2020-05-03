@@ -246,4 +246,45 @@ function foo() {
 }
 ```
 6. 常量使用`const`修饰，具有块级作用域。
-7. 
+7. 解构赋值，可以使用数组同时对多个变量赋值，就仿佛给向量赋值。
+```javascript
+var [x, y, z] = ['hello', 'JavaScript', 'ES6'];//新建三个变量并使用数组对他们赋值
+let [,,z]=['hello', 'JavaScript', 'ES6'];//可以忽略某些元素
+let [x,[y,z]]=['hello', ['JavaScript', 'ES6']];//使用嵌套的数组赋值
+//当使用对象赋值的时候，也要依照对象的形式使用{}
+var person = {
+    name: '小明',
+    age: 20,
+    gender: 'male',
+    passport: 'G-12345678',
+    school: 'No.4 middle school'
+};
+var {name, age, passport} = person;//使用对象给变量赋值
+var person = {
+    name: '小明',
+    age: 20,
+    gender: 'male',
+    passport: 'G-12345678',
+    school: 'No.4 middle school',
+    address: {
+        city: 'Beijing',
+        street: 'No.1 Road',
+        zipcode: '100001'
+    }
+};
+var {name, address: {city, zip}} = person;//对象的嵌套赋值，其中address并不是变量
+var person = {
+    name: '小明',
+    age: 20,
+    gender: 'male',
+    passport: 'G-12345678',
+    school: 'No.4 middle school'
+};
+
+// 把passport属性赋值给变量id:
+let {name, passport:id} = person;
+name; // '小明'
+id; // 'G-12345678'
+// 注意: passport不是变量，而是为了让变量id获得passport属性:
+passport; // Uncaught ReferenceError: passport is not defined
+```
